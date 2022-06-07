@@ -1,0 +1,56 @@
+﻿@model IndexViewModel
+
+@{
+    ViewBag.Title = "Welcome!";
+}
+
+@if (!Model.Cars.Any())
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to the best place for renting cars!</h1>
+        <p class="lead">There are no cars in the system currently available so why don't you just add one?</p>
+        <hr class="my-4">
+        <p class="lead">
+            <a asp-controller="Cars" asp-action="Add" class="btn btn-primary btn-lg" role="button">Add Car</a>
+        </p>
+    </div>
+}
+
+<div class="mb-3"></div>
+<div id="carouselExampleControls" class="carousel slide col-md-7 m-auto" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        @for (int i = 0; i < Model.Cars.Count; i++)
+        {
+            var car = Model.Cars[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img src="@car.ImageUrl" class="d-block w-100 rounded" alt="@car.Brand @car.Model">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" asp-route-information="@(car.Brand+"-"+car.Model)">@car.Year @car.Brand @car.Model</a></h5>
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div class="mb-5"></div>
+<div class="jumbotron">
+    <div class="row">
+        <h2 class="col-md-4 text-center">
+            @Model.TotalCars Cars
+        </h2>
+        <h2 class="col-md-4 text-center">
+            @Model.TotalUsers Users
+        </h2>
+        <h2 class="col-md-4 text-center">
+            @Model.TotalRent Rents
+        </h2>
+    </div>
+</div>
